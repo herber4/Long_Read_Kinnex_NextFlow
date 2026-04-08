@@ -9,6 +9,7 @@
 #SBATCH --partition=defq              # ← change to your cluster's partition name
 ##SBATCH --account=your_account       # ← uncomment and set if required
 
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Nextflow SLURM submission script
 # This job acts as the Nextflow "head" process and submits child SLURM jobs
@@ -17,6 +18,14 @@
 
 set -euo pipefail
 
+
+# set dirs
+PIPELINE_DIR="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/pipeline"
+
+NXF_WORK="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/work"
+NXF_TEMP="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/tmp"
+
+conda activate isoseq
 # ── Load modules / activate conda ────────────────────────────────────────────
 # Adjust for your cluster's module system
 module load java/17         # Nextflow requires Java 11+
@@ -31,16 +40,6 @@ NXF_VERSION="24.04.4"        # pin a Nextflow version for reproducibility
 export NXF_WORK="${SCRATCH}/nxf_work"          # adjust if your cluster uses $SCRATCH
 export NXF_TEMP="${SCRATCH}/nxf_tmp"
 mkdir -p "${NXF_WORK}" "${NXF_TEMP}"
-
-# ── Install Nextflow if not present ──────────────────────────────────────────
-NXF_BIN="$HOME/.local/bin/nextflow"
-if [ ! -f "${NXF_BIN}" ]; then
-    echo "Installing Nextflow ${NXF_VERSION}..."
-    mkdir -p "$(dirname ${NXF_BIN})"
-    curl -fsSL "https://github.com/nextflow-io/nextflow/releases/download/v${NXF_VERSION}/nextflow" \
-        -o "${NXF_BIN}"
-    chmod +x "${NXF_BIN}"
-fi
 
 # ── Move to pipeline directory ───────────────────────────────────────────────
 cd "${PIPELINE_DIR}"
