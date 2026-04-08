@@ -18,6 +18,8 @@ conda activate isoseq
 PIPELINE_DIR="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/pipeline"
 export NXF_WORK="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/work"
 export NXF_TEMP="/data2/lackey_lab/DownloadedSequenceData/austin/chick/chick_test/tmp"
+export NXF_OFFLINE=true
+export NXF_DISABLE_CHECK_LATEST=true
 mkdir -p "${NXF_WORK}" "${NXF_TEMP}"
 
 cd "${PIPELINE_DIR}"
